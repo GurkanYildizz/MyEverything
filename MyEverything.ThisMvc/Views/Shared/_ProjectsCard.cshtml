@@ -1,0 +1,31 @@
+﻿@model Data_DTO
+<div class="card shadow-sm h-100 border-1">
+
+   
+    @* Resim alanı *@
+    <img src="@Model.Image" class="card-img-top img-fluid" alt="@Model.Title">
+
+    <div class="card-body d-flex flex-column ">
+        @* Başlık *@
+        <h5 class="card-title">@Model.Title</h5>
+
+        @* Açıklama *@
+        <p class="card-text">@Model.Explanation</p>
+
+        @* Butonlar veya ek linkler için yer (isteğe bağlı) *@
+        <div class="mt-auto">
+            <a href="#" class="btn btn-primary">Detayları Gör</a>
+        </div>
+    </div>
+
+    <div class="card-footer">
+        @* Oluşturulma tarihi *@
+        <small class="text-muted">Oluşturulma Tarihi: @Model.Created.ToString("dd MMMM yyyy")</small>
+
+        @* ID (genellikle gizli tutulur ama istenirse gösterilebilir) 
+        <small class="text-muted float-end">ID: @Model.Id</small>
+        *@
+    </div>
+
+
+</div>

@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Projeler";
+}
+@model List<Data_DTO>
+<div>
+    <h1> Projeler </h1>
+    <div class="row g-3 ">
+        @foreach (var val in @Model)
+        {
+            <div class="col-lg-4 col-md-6 col-sm-12"> @* Büyük ekranlarda 3'lü, orta ekranlarda 2'li , küçük ekranda 1 li dizilim. 12/ olarak hesaplanır. *@
+                @await Html.PartialAsync("_ProjectsCard", val)
+            </div>
+        }
+    </div>
+</div>
