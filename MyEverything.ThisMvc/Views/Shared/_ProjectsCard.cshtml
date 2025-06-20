@@ -14,7 +14,7 @@
 
         @* Butonlar veya ek linkler için yer (isteğe bağlı) *@
         <div class="mt-auto">
-            <a href="#" class="btn btn-primary">Detayları Gör</a>
+            <a href="@Url.Action(action: "Details", controller: "Projects", values: new{id=Model.Id})" class="btn btn-primary">Detayları Gör</a>
         </div>
     </div>
 

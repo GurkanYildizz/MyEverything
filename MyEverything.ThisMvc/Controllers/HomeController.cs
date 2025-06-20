@@ -13,12 +13,5 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Projects()
-    {
-        Datas.ClearDatas();
-        AllDatas allDatass = new AllDatas();
-        var datas = Datas.GetAllDatas();
-        
-        return View(datas);
-    }
+    
 }
