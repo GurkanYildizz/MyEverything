@@ -1,25 +1,31 @@
+﻿using Microsoft.Extensions.Options;
+using MyEverything.ThisMvc.Entities;
+using MyEverything.ThisMvc.Helpers.DbHelpers;
 using System.ComponentModel.Design.Serialization;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
 builder.Services.AddControllersWithViews();
+
+
+
+builder.AddConnectionString<EverythingDbConnection,EverythingDbContext>();
+
+
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+/*app.MapGet("/testconfig", (IOptions<EverythingDbConnection> options) => {
+    // IOptions<TDbConnection> doğrudan metoda enjekte edilir ve .Value'su döndürülür.
+    return Results.Ok(options.Value);
+});*/
 app.UseAuthorization();
 
 app.MapControllerRoute(

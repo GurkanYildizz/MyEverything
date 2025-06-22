@@ -1,32 +1,39 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyEverything.ThisMvc.Models;
+using Microsoft.EntityFrameworkCore;
+using MyEverything.ThisMvc.Entities;
+
 
 namespace MyEverything.ThisMvc.Controllers
 {
     public class ProjectsController : Controller
     {
+        private readonly EverythingDbContext everythingDbContext;
 
-        public IActionResult Index()
+        public ProjectsController(EverythingDbContext everythingDbContext)
         {
-            Datas.ClearDatas();
-            AllDatas allDatass = new AllDatas();
-            var datas = Datas.GetAllDatas();
-
-            return View(datas);
+            this.everythingDbContext = everythingDbContext;
         }
-        public IActionResult Details(Guid id,string slug)
+
+        public async Task<IActionResult> Index()
         {
+            var data = await everythingDbContext.ProjectsInfo.ToListAsync();
 
-            var data = Datas.GetAllDatas();
-            var filterData = data.First(x => x.Id == id);
-            var correctSlug = GenerateSlug(filterData.Title);
-
-            if (slug != correctSlug)
+            return View(data);
+        }
+        
+        public async Task<IActionResult> Details(Guid id, string slug)
+        {
+            
+            if (slug == null)
             {
-                return RedirectToAction("Details", new { id = id, slug = correctSlug });
+                //return Error 404 ...
             }
 
-            return View(model: filterData);
+            var selectedData = everythingDbContext.ProjectsInfo.FirstOrDefault(f => f.Id == id);
+            
+
+
+            return View(selectedData);
 
         }
         public string GenerateSlug(string title)
@@ -44,6 +51,14 @@ namespace MyEverything.ThisMvc.Controllers
                 .Replace(",", "")
                 .Replace("?", "")
                 .Replace("!", "");
+        }
+
+        public RedirectToActionResult DetailOfSelected(Guid id,string title)
+        {
+            
+            var slug = GenerateSlug(title);
+
+            return RedirectToAction("Details", new { id = id, slug = slug });
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model Data_DTO
+﻿@model ProjectInfo
 <div class="card shadow-sm h-100 border-1">
 
    
@@ -10,17 +10,17 @@
         <h5 class="card-title">@Model.Title</h5>
 
         @* Açıklama *@
-        <p class="card-text">@Model.Explanation</p>
+        <p class="card-text">@Model.MinExplanation</p>
 
         @* Butonlar veya ek linkler için yer (isteğe bağlı) *@
         <div class="mt-auto">
-            <a href="@Url.Action(action: "Details", controller: "Projects", values: new{id=Model.Id})" class="btn btn-primary">Detayları Gör</a>
+            <a href="@Url.Action(action: "DetailOfSelected", controller: "Projects", values: new { id = Model.Id , title=Model.Title })" class="btn btn-primary">Detayları Gör</a>
         </div>
     </div>
 
     <div class="card-footer">
         @* Oluşturulma tarihi *@
-        <small class="text-muted">Oluşturulma Tarihi: @Model.Created.ToString("dd MMMM yyyy")</small>
+        <small class="text-muted">Oluşturulma Tarihi: @Model.CreatedDate.ToString("dd MMMM yyyy")</small>
 
         @* ID (genellikle gizli tutulur ama istenirse gösterilebilir) 
         <small class="text-muted float-end">ID: @Model.Id</small>
