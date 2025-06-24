@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Isopoh.Cryptography.Argon2;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyEverything.ThisMvc.Entities;
+using MyEverything.ThisMvc.Helpers;
 
 
 namespace MyEverything.ThisMvc.Controllers
@@ -8,7 +11,7 @@ namespace MyEverything.ThisMvc.Controllers
     public class ProjectsController : Controller
     {
         private readonly EverythingDbContext everythingDbContext;
-
+       
         public ProjectsController(EverythingDbContext everythingDbContext)
         {
             this.everythingDbContext = everythingDbContext;
@@ -16,11 +19,23 @@ namespace MyEverything.ThisMvc.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var data = await everythingDbContext.ProjectsInfo.ToListAsync();
+            var data = await everythingDbContext.ProjectsInfo.ToListAsync();//Burada tüm verilerin hepsi değil de parça parça gözükecek... Hatta sadece öne çıkanlar gözükecek...
 
             return View(data);
         }
-        
+
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult AddProject()
+        {
+           
+            
+            return Ok("Şu an yetkin var adminnn");
+        }
+
+       
+
         public async Task<IActionResult> Details(Guid id, string slug)
         {
             
@@ -29,7 +44,7 @@ namespace MyEverything.ThisMvc.Controllers
                 //return Error 404 ...
             }
 
-            var selectedData = everythingDbContext.ProjectsInfo.FirstOrDefault(f => f.Id == id);
+            var selectedData = await everythingDbContext.ProjectsInfo.FirstOrDefaultAsync(f => f.Id == id);
             
 
 
@@ -47,7 +62,7 @@ namespace MyEverything.ThisMvc.Controllers
                 .Replace("ü", "u")
                 .Replace("ğ", "g")
                 .Replace(" ", "-")
-                .Replace(".", "")
+                .Replace(".", "-")
                 .Replace(",", "")
                 .Replace("?", "")
                 .Replace("!", "");

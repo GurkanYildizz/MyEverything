@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyEverything.ThisMvc.Entities.DTOs;
 
-public class Projects_DTO
+public class Projects_Dto
 {
     [Key]
     public Guid Id { get; set; } = Guid.NewGuid();

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace MyEverything.ThisMvc.Entities
 {
     [Table("ProjectsInfo",Schema ="info")]
-    public class ProjectInfo:Projects_DTO
+    public class ProjectInfo:Projects_Dto
     {
        public ProjectInfo()
         {
@@ -21,7 +21,7 @@ namespace MyEverything.ThisMvc.Entities
         public string? ProjectName { get; set; }
 
         [Required]
-        public decimal Version { get; set; }
+        public double Version { get; set; }
 
         [Required]
         public string? Explanation { get; set; }

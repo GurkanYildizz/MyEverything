@@ -1,0 +1,14 @@
+﻿---NOTLAR---
+
++++ EKSİKLER +++
+	
+	* Slug nesne ilk oluştuğunda veritabanına kayıt edilecek. Title dan oluşacak. Title değişirse bile slug değişmesin.
+	* Token şifreleme güçlendirmesi ve normal şifre güçlendirmesi yapılacak...
+	* Token ın geçerlilik tarihi belirli bir aralığa geldiğinde her sorguda bakılacak ve o aralıktaysa otomatik olarak yenilenecek.
+	* Yanlış şifrede Api den mesaj gönderilecek...
+
++++ HATIRLATMALAR +++
+	
+	*Argon2 yüklü. Hash leme gerekirse Argon2 ile yap.
+	- Geçici olarak jwt süresini 1 dk ya indirdim...
+
