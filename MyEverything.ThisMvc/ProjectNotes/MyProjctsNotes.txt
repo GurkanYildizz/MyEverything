@@ -10,5 +10,5 @@
 +++ HATIRLATMALAR +++
 	
 	*Argon2 yüklü. Hash leme gerekirse Argon2 ile yap.
-	- Geçici olarak jwt süresini 1 dk ya indirdim...
+	* Geçici olarak jwt süresini 1 dk ya indirdim...
 
