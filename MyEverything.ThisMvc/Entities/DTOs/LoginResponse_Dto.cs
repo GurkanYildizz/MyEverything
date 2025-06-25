@@ -4,11 +4,17 @@ namespace MyEverything.ThisMvc.Entities.DTOs
 {
     public class LoginResponse_Dto
     {
-        [JsonPropertyName("token")]
-        public string Token { get; set; }
+        [JsonPropertyName("access-token")]
+        public string AccessToken { get; set; }
 
-        [JsonPropertyName("expiration")]
-        public DateTime Expiration { get; set; }
+        [JsonPropertyName("access-token-expiration")]
+        public DateTime AccessTokenExpiration { get; set; }
+
+        [JsonPropertyName("refresh-token")]
+        public string RefreshToken { get; set; }
+
+        [JsonPropertyName("refresh-token-expiration")]
+        public DateTime RefreshTokenExpiration { get; set; }
 
     }
 }

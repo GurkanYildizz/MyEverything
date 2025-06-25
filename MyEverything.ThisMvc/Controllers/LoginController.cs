@@ -55,13 +55,19 @@ namespace MyEverything.ThisMvc.Controllers
                 var result = await response.Content.ReadAsStringAsync();
                 var loginResponse = await response.Content.ReadFromJsonAsync<LoginResponse_Dto>();
 
-                Response.Cookies.Append("jwt", loginResponse.Token, new CookieOptions
+                Response.Cookies.Append("jwt", loginResponse.AccessToken, new CookieOptions
                 {
                     HttpOnly = true,
                     Secure = true,
-                    Expires = loginResponse.Expiration
+                    Expires = loginResponse.AccessTokenExpiration
                 });
-                
+                Response.Cookies.Append("jwt-refresh", loginResponse.RefreshToken, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    Expires = loginResponse.RefreshTokenExpiration
+                });
+
 
 
                 return RedirectToAction(actionName: "AddProject", controllerName: "Projects");//--------------------

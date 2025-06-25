@@ -5,6 +5,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MyEverything.ThisMvc.Entities;
 using MyEverything.ThisMvc.Helpers.DbHelpers;
+using MyEverything.ThisMvc.Helpers.Token;
+using MyEverything.ThisMvc.Middlewares;
 using System.ComponentModel.Design.Serialization;
 using System.Text;
 using System.Text.Json;
@@ -16,6 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddHttpClient();
+builder.Services.AddScoped<CreateTokensControl>();
 
 
 builder.AddConnectionString<EverythingDbConnection,EverythingDbContext>();
@@ -114,7 +117,9 @@ app.UseRouting();
     return Results.Ok(options.Value);
 });*/
 app.UseAuthentication();
+app.UseMiddleware<RefreshTokenControlMiddleware>();
 app.UseAuthorization();
+
 app.MapControllers();
 
 app.MapControllerRoute(

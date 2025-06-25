@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MyEverything.ThisMvc.Entities;
 using MyEverything.ThisMvc.Entities.DTOs;
+using MyEverything.ThisMvc.Helpers.Token;
+using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -16,17 +20,20 @@ namespace MyEverything.ThisMvc.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserManager<AdminLoginInfo> userManager;
-        private readonly IConfiguration configuration;
-        public AuthController(UserManager<AdminLoginInfo> userManager, IConfiguration configuration)
+        private readonly CreateTokensControl createTokensControl;
+        
+        public AuthController(UserManager<AdminLoginInfo> userManager, CreateTokensControl createTokensControl)
         {
             this.userManager = userManager;
-            this.configuration = configuration;
-            
+            this.createTokensControl = createTokensControl;
+           
+
         }
-       
+
+
 
         [HttpPost("login-admin")]
-        public async Task<IActionResult> LoginAdmin([FromBody] AdminLogin_Dto adminLogin_Dto)
+        public async Task<IActionResult> LoginAdmin([FromBody] AdminLogin_Dto adminLogin_Dto,CancellationToken cancellationToken)
         {
             #region Burası ilk başta admin olmadığı için admin eklemek için geçici çözüm
             /* var newAdminUser = new AdminLoginInfo
@@ -38,14 +45,13 @@ namespace MyEverything.ThisMvc.Controllers
 
                 };
                   await userManager.CreateAsync(newAdminUser, "1q2w3e4R!");
-               */ 
+               */
             #endregion
 
+            
 
             var user = await userManager.FindByEmailAsync(adminLogin_Dto.Email);
 
-           
-            
 
             if (user == null || !(await userManager.CheckPasswordAsync(user, adminLogin_Dto.Password)))
             {
@@ -53,43 +59,25 @@ namespace MyEverything.ThisMvc.Controllers
                 return StatusCode(StatusCodes.Status401Unauthorized);
                 //Burada mesaj gönderilecek şifre yanlış vb...
             }
-
-            var authClaims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name,user.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
-            };
-
-            /* foreach (var role in userRoles)
-           {
-               authClaims.Add(new Claim(ClaimTypes.Role, role));
-           }
-           */
-
-
-            var token=GetToken(authClaims);
-            return Ok(new LoginResponse_Dto
-            {
-                Token = new JwtSecurityTokenHandler().WriteToken(token),
-                Expiration = token.ValidTo
-            });
             
+             LoginResponse_Dto addLoginResponse = await createTokensControl.TokenControls(user, cancellationToken);
+            return Ok(addLoginResponse);
+
         }
-        private JwtSecurityToken GetToken(List<Claim> claims)
+
+       /* [HttpPost("refresh-token")]
+        [Authorize]
+        public async Task<IActionResult> RefreshTokens([FromBody] string refreshToken , CancellationToken cancellationToken)
         {
-            var jwtSettings = configuration.GetSection("Jwt");
-
-            var authSigninKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]));
-
-            var token = new JwtSecurityToken(
-                issuer: jwtSettings["Issure"],
-                audience: jwtSettings["Audience"],
-                expires: DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings["ExpireHour"])),
-                claims: claims,
-                signingCredentials: new SigningCredentials(authSigninKey, SecurityAlgorithms.HmacSha256)
-                );
-
-            return token;
+           
+            
+            return Ok("Buraya girildi");
         }
+       */
+       
+
+       
+
+       
     }
 }
