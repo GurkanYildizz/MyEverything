@@ -23,17 +23,12 @@ public class RefreshTokenControlMiddleware
     public async Task InvokeAsync(HttpContext context)
     {
 
-      /*  if (!context.Request.Path.StartsWithSegments("/api")) // Burası gereksiz middleware da sorgu yapmasın diye "/api" ile başlayan istekler geçerli olur
-        {
-            await next(context);
-            return;
-        }
-      */
-
-        var userManager = context.RequestServices.GetRequiredService<UserManager<AdminLoginInfo>>();
-        var tokenCreateController = context.RequestServices.GetRequiredService<CreateTokensControl>();//servisleri bu şekilde middleware den çağırabiliyoruz...Kendi oluşturduğum servis
-        var everythingDbContext = context.RequestServices.GetRequiredService<EverythingDbContext>();
-
+        /*  if (!context.Request.Path.StartsWithSegments("/api")) // Burası gereksiz middleware da sorgu yapmasın diye "/api" ile başlayan istekler geçerli olur
+          {
+              await next(context);
+              return;
+          }
+        */
         var jwt = context.Request.Cookies["jwt"];
         var jwtRefresh = context.Request.Cookies["jwt-refresh"];
 
@@ -42,6 +37,13 @@ public class RefreshTokenControlMiddleware
             await next(context);
             return;
         }
+
+
+        var userManager = context.RequestServices.GetRequiredService<UserManager<AdminLoginInfo>>();
+        var tokenCreateController = context.RequestServices.GetRequiredService<CreateTokensControl>();//servisleri bu şekilde middleware den çağırabiliyoruz...Kendi oluşturduğum servis
+        var everythingDbContext = context.RequestServices.GetRequiredService<EverythingDbContext>();
+
+       
         (var expiration, var email) = DecodeJwtTokenDate(jwt);
         if (email == null)
         {

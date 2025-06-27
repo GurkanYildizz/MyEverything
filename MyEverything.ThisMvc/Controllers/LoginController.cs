@@ -28,7 +28,7 @@ namespace MyEverything.ThisMvc.Controllers
         {
             if (!String.IsNullOrEmpty(Request.Cookies["jwt"]))
             {
-                return RedirectToAction(actionName: "AddProject", controllerName: "Projects");//--------------------
+                return RedirectToAction(actionName: "Index", controllerName: "AdminPanel");//--------------------
             }
             return View();
         }
@@ -70,7 +70,7 @@ namespace MyEverything.ThisMvc.Controllers
 
 
 
-                return RedirectToAction(actionName: "AddProject", controllerName: "Projects");//--------------------
+                return RedirectToAction(actionName: "Index", controllerName: "AdminPanel");//--------------------
             }
 
 

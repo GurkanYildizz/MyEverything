@@ -30,7 +30,7 @@ public class CreateTokensControl
     { //-----------------------------------------
        
         var refreshToken = $"{Guid.NewGuid().ToString()}{DateTime.Now.ToString()}";
-        var refreshTokenExpiration = DateTime.Now.AddDays(6);
+        var refreshTokenExpiration = DateTime.Now.AddDays(7);
         var oldRefreshToken = await everythingDbContext.UserTokens.FirstOrDefaultAsync(f => f.UserId == user.Id);
         if (oldRefreshToken == null)
         {
@@ -93,7 +93,7 @@ public class CreateTokensControl
         var authSigninKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]));
 
         var token = new JwtSecurityToken(
-            issuer: jwtSettings["Issure"],
+            issuer: jwtSettings["issuer"],
             audience: jwtSettings["Audience"],
             expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(jwtSettings["ExpireMinute"])),
             claims: claims,           

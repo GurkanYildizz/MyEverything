@@ -25,15 +25,7 @@ namespace MyEverything.ThisMvc.Controllers
         }
 
 
-        [Authorize]
-        [HttpGet]
-        public IActionResult AddProject()
-        {
-           
-            
-            return Ok("Şu an yetkin var adminnn");
-        }
-
+     
        
 
         public async Task<IActionResult> Details(Guid id, string slug)
