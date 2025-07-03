@@ -21,19 +21,18 @@ namespace MyEverything.ThisMvc.Controllers
     {
         private readonly UserManager<AdminLoginInfo> userManager;
         private readonly CreateTokensControl createTokensControl;
-        
+
         public AuthController(UserManager<AdminLoginInfo> userManager, CreateTokensControl createTokensControl)
         {
             this.userManager = userManager;
             this.createTokensControl = createTokensControl;
-           
 
         }
 
 
 
         [HttpPost("login-admin")]
-        public async Task<IActionResult> LoginAdmin([FromBody] AdminLogin_Dto adminLogin_Dto,CancellationToken cancellationToken)
+        public async Task<IActionResult> LoginAdmin([FromBody] AdminLogin_Dto adminLogin_Dto, CancellationToken cancellationToken)
         {
             #region Burası ilk başta admin olmadığı için admin eklemek için geçici çözüm
             /* var newAdminUser = new AdminLoginInfo
@@ -48,7 +47,7 @@ namespace MyEverything.ThisMvc.Controllers
                */
             #endregion
 
-            
+
 
             var user = await userManager.FindByEmailAsync(adminLogin_Dto.Email);
 
@@ -59,25 +58,25 @@ namespace MyEverything.ThisMvc.Controllers
                 return StatusCode(StatusCodes.Status401Unauthorized);
                 //Burada mesaj gönderilecek şifre yanlış vb...
             }
-            
-             LoginResponse_Dto addLoginResponse = await createTokensControl.TokenControls(user, cancellationToken);
+
+            LoginResponse_Dto addLoginResponse = await createTokensControl.TokenControls(user, cancellationToken);
             return Ok(addLoginResponse);
 
         }
 
-       /* [HttpPost("refresh-token")]
-        [Authorize]
-        public async Task<IActionResult> RefreshTokens([FromBody] string refreshToken , CancellationToken cancellationToken)
-        {
-           
-            
-            return Ok("Buraya girildi");
-        }
-       */
-       
+        /* [HttpPost("refresh-token")]
+         [Authorize]
+         public async Task<IActionResult> RefreshTokens([FromBody] string refreshToken , CancellationToken cancellationToken)
+         {
 
-       
 
-       
+             return Ok("Buraya girildi");
+         }
+        */
+
+
+
+
+
     }
 }

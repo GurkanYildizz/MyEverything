@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MyEverything.ThisMvc.Entities;
+using MyEverything.ThisMvc.Helpers.CookieGlobalVariablesValues;
 using MyEverything.ThisMvc.Helpers.DbHelpers;
 using MyEverything.ThisMvc.Helpers.Token;
 using MyEverything.ThisMvc.Middlewares;
@@ -67,7 +68,7 @@ builder.Services.AddAuthentication(options =>
                // context.Request.Cookies ile gelen isteğin içindeki tüm cookie'lere erişiriz.
                // ["jwt"] diyerek, adının "jwt" olmasını beklediğimiz cookie'nin değerini almaya çalışırız.
                // Bu "jwt" ismi, token'ı oluştururken cookie'ye verdiğimiz isimle aynı olmalıdır.
-               var token = context.Request.Cookies["jwt"];
+               var token = context.Request.Cookies[GlobalCookiesNames.JwtCookieName];
 
                // Eğer "jwt" isimli bir cookie bulunduysa ve içi boş değilse...
                if (!string.IsNullOrEmpty(token))
@@ -99,9 +100,6 @@ builder.Services.AddAuthentication(options =>
 
 
    );
-
-
-
 
 
 

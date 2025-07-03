@@ -1,4 +1,4 @@
-html {
+﻿html {
   font-size: 14px;
 }
 
@@ -20,3 +20,7 @@ html {
 body {
   margin-bottom: 60px;
 }
+/*
+    Bootstrap'te çok satırlı metin kısıtlama için yerleşik bir sınıf olmadığından,
+    bu yardımcı sınıfları kullanmak en pratik yoldur.
+*/

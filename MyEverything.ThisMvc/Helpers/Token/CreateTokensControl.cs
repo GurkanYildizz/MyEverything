@@ -16,19 +16,16 @@ public class CreateTokensControl
 {
     private readonly EverythingDbContext everythingDbContext;
     private readonly IConfiguration configuration;
-    public CreateTokensControl()
-    {
 
-    }
     public CreateTokensControl(EverythingDbContext everythingDbContext, IConfiguration configuration)
     {
         this.everythingDbContext = everythingDbContext;
         this.configuration = configuration;
     }
-   
+
     public async Task<LoginResponse_Dto> TokenControls(AdminLoginInfo user, CancellationToken cancellationToken)
     { //-----------------------------------------
-       
+
         var refreshToken = $"{Guid.NewGuid().ToString()}{DateTime.Now.ToString()}";
         var refreshTokenExpiration = DateTime.Now.AddDays(7);
         var oldRefreshToken = await everythingDbContext.UserTokens.FirstOrDefaultAsync(f => f.UserId == user.Id);
@@ -37,7 +34,7 @@ public class CreateTokensControl
             everythingDbContext.UserTokens.Add(new IdentityUserToken<string>
             {
                 UserId = user.Id,
-                Name = "gurkan",
+                Name = "gurkan",// Normal Kayıt olmadığı için nasıl kullanabilirim burayı??
                 Value = JsonConvert.SerializeObject(new RefershTokenInfo(
                 RefreshToken: refreshToken,
                 RefreshTokenExpiration: refreshTokenExpiration
@@ -48,9 +45,9 @@ public class CreateTokensControl
         }
         else
         {
-            oldRefreshToken.Value = JsonConvert.SerializeObject(new RefershTokenInfo (
-                RefreshToken : refreshToken,
-                RefreshTokenExpiration : refreshTokenExpiration
+            oldRefreshToken.Value = JsonConvert.SerializeObject(new RefershTokenInfo(
+                RefreshToken: refreshToken,
+                RefreshTokenExpiration: refreshTokenExpiration
             ));
 
 
@@ -63,7 +60,9 @@ public class CreateTokensControl
         {
             new Claim(ClaimTypes.Name,user.UserName),
             new Claim(ClaimTypes.Email,user.Email),
-            new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
+            new Claim("id",user.Id),
+
+            new Claim(JwtRegisteredClaimNames.Jti,$"{Guid.NewGuid().ToString()}{DateTime.Now.Ticks.ToString()}")
         };
 
 
@@ -96,8 +95,7 @@ public class CreateTokensControl
             issuer: jwtSettings["issuer"],
             audience: jwtSettings["Audience"],
             expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(jwtSettings["ExpireMinute"])),
-            claims: claims,           
-
+            claims: claims,
             signingCredentials: new SigningCredentials(authSigninKey, SecurityAlgorithms.HmacSha256)
             );
 

@@ -67,8 +67,8 @@
 
                     <p class="text-muted text-center mb-4">Lütfen devam etmek için giriş yapın</p>
 
-                    <form asp-action="LoginAdmin" method="post">
-
+                    <form asp-action="LoginAdmin" method="post" >
+                        @Html.AntiForgeryToken()
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
 
                         <div class="form-floating mb-3">

@@ -1,20 +1,22 @@
 ﻿@model ProjectInfo
 <div class="card shadow-sm h-100 border-1">
 
-   
-    @* Resim alanı *@
-    <img src="@Model.Image" class="card-img-top img-fluid" alt="@Model.Title">
 
-    <div class="card-body d-flex flex-column ">
+    @* Resim alanı *@
+    <div class="h-100">
+        <img src="@Model.Image" class="card-img-top img-fluid h-100" alt="@Model.Title">
+    </div>
+    <div class="card-body d-flex flex-column p-3 ">
         @* Başlık *@
         <h5 class="card-title">@Model.Title</h5>
 
         @* Açıklama *@
+
         <p class="card-text">@Model.MinExplanation</p>
 
         @* Butonlar veya ek linkler için yer (isteğe bağlı) *@
         <div class="mt-auto">
-            <a href="@Url.Action(action: "DetailOfSelected", controller: "Projects", values: new { id = Model.Id , title=Model.Title })" class="btn btn-primary">Detayları Gör</a>
+            <a href="@Url.Action(action: "DetailOfSelected", controller: "Projects", values: new { id = Model.Id, title = Model.Title })" class="btn btn-primary">Detayları Gör</a>
         </div>
     </div>
 

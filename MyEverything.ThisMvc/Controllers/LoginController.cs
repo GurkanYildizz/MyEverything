@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using MyEverything.ThisMvc.Entities;
 using MyEverything.ThisMvc.Entities.DTOs;
+using MyEverything.ThisMvc.Helpers.CookieGlobalVariablesValues;
 using Newtonsoft.Json;
 using System.Text;
-using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace MyEverything.ThisMvc.Controllers
 {
@@ -26,7 +27,7 @@ namespace MyEverything.ThisMvc.Controllers
         [HttpGet]
         public IActionResult LoginAdmin()
         {
-            if (!String.IsNullOrEmpty(Request.Cookies["jwt"]))
+            if (!String.IsNullOrEmpty(Request.Cookies[GlobalCookiesNames.JwtCookieName]))
             {
                 return RedirectToAction(actionName: "Index", controllerName: "AdminPanel");//--------------------
             }
@@ -34,6 +35,7 @@ namespace MyEverything.ThisMvc.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> LoginAdmin(AdminLogin_Dto adminLogin_Dto)
         {
             /* ViewBag.ErrorText = "";
@@ -55,16 +57,18 @@ namespace MyEverything.ThisMvc.Controllers
                 var result = await response.Content.ReadAsStringAsync();
                 var loginResponse = await response.Content.ReadFromJsonAsync<LoginResponse_Dto>();
 
-                Response.Cookies.Append("jwt", loginResponse.AccessToken, new CookieOptions
+                Response.Cookies.Append(GlobalCookiesNames.JwtCookieName, loginResponse.AccessToken, new CookieOptions
                 {
                     HttpOnly = true,
                     Secure = true,
+                    SameSite = SameSiteMode.Strict,
                     Expires = loginResponse.AccessTokenExpiration
                 });
-                Response.Cookies.Append("jwt-refresh", loginResponse.RefreshToken, new CookieOptions
+                Response.Cookies.Append(GlobalCookiesNames.RefreshTokenName, loginResponse.RefreshToken, new CookieOptions
                 {
                     HttpOnly = true,
                     Secure = true,
+                    SameSite = SameSiteMode.Strict,
                     Expires = loginResponse.RefreshTokenExpiration
                 });
 
