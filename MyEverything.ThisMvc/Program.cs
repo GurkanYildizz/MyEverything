@@ -3,12 +3,15 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using MyEverything.ThisMvc.CQRS.Queries;
 using MyEverything.ThisMvc.Entities;
 using MyEverything.ThisMvc.Helpers.CookieGlobalVariablesValues;
 using MyEverything.ThisMvc.Helpers.DbHelpers;
 using MyEverything.ThisMvc.Helpers.Token;
 using MyEverything.ThisMvc.Middlewares;
+using MyMediatr;
 using System.ComponentModel.Design.Serialization;
+using System.Reflection;
 using System.Text;
 using System.Text.Json;
 
@@ -17,6 +20,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddControllersWithViews();
+
 
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<CreateTokensControl>();
@@ -32,6 +36,8 @@ builder.Services.AddIdentity<AdminLoginInfo, IdentityRole>()
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
 
+ 
+builder.Services.AddMyMediatr(typeof(AuthorQuery).Assembly);
 
 
 builder.Services.AddAuthentication(options =>
@@ -115,7 +121,7 @@ app.UseRouting();
     return Results.Ok(options.Value);
 });*/
 app.UseAuthentication();
-app.UseMiddleware<RefreshTokenControlMiddleware>();
+//app.UseMiddleware<RefreshTokenControlMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();

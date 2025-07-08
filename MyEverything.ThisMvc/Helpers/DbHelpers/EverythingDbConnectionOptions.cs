@@ -10,7 +10,9 @@ public static class EverythingDbConnectionOptions
 
         var connectionString = builder.Configuration.GetSection(typeof(TDbConnection).Name).GetSection("ConnectionString").Value;
         builder.Services.AddDbContext<TDbContext>(option =>
-        option.UseSqlServer(connectionString));//dotnet ef migrations add InitialCreate --startup-project MyEverything.ThisMvc
-                                               //dotnet ef database update --startup-project MyEverything.ThisMvc
+        option.UseSqlServer(connectionString));
+        
+        //dotnet ef migrations add InitialCreate --startup-project MyEverything.ThisMvc
+        //dotnet ef database update --startup-project MyEverything.ThisMvc
     }
 }

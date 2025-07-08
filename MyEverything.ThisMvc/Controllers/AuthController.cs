@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using MyEverything.ThisMvc.CQRS.Queries;
 using MyEverything.ThisMvc.Entities;
 using MyEverything.ThisMvc.Entities.DTOs;
 using MyEverything.ThisMvc.Helpers.Token;
+using MyMediatr;
 using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -19,49 +22,23 @@ namespace MyEverything.ThisMvc.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<AdminLoginInfo> userManager;
-        private readonly CreateTokensControl createTokensControl;
+       
+        private readonly ISender sender;
 
-        public AuthController(UserManager<AdminLoginInfo> userManager, CreateTokensControl createTokensControl)
+        public AuthController(ISender sender)
         {
-            this.userManager = userManager;
-            this.createTokensControl = createTokensControl;
-
+            this.sender = sender;
         }
 
 
 
         [HttpPost("login-admin")]
-        public async Task<IActionResult> LoginAdmin([FromBody] AdminLogin_Dto adminLogin_Dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> LoginAdmin([FromBody] AuthorQuery authorQuery,CancellationToken cancellationToken)
         {
-            #region Burası ilk başta admin olmadığı için admin eklemek için geçici çözüm
-            /* var newAdminUser = new AdminLoginInfo
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    UserName = "GurkanYildiz",
-                    Email = "gurkan@mail.com",
-                    EmailConfirmed = true,
+            //var user = await userManager.FindByEmailAsync(authorQuery.Email);
+            var response = await sender.Send(authorQuery,cancellationToken);
 
-                };
-                  await userManager.CreateAsync(newAdminUser, "1q2w3e4R!");
-               */
-            #endregion
-
-
-
-            var user = await userManager.FindByEmailAsync(adminLogin_Dto.Email);
-
-
-            if (user == null || !(await userManager.CheckPasswordAsync(user, adminLogin_Dto.Password)))
-            {
-
-                return StatusCode(StatusCodes.Status401Unauthorized);
-                //Burada mesaj gönderilecek şifre yanlış vb...
-            }
-
-            LoginResponse_Dto addLoginResponse = await createTokensControl.TokenControls(user, cancellationToken);
-            return Ok(addLoginResponse);
-
+            return Ok(response);
         }
 
         /* [HttpPost("refresh-token")]
