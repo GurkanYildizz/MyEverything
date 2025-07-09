@@ -1,4 +1,5 @@
-﻿using MyEverything.ThisMvc.Entities.DTOs;
+﻿using Microsoft.Identity.Client;
+using MyEverything.ThisMvc.Entities.DTOs;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,8 +10,11 @@ namespace MyEverything.ThisMvc.Entities
     {
        public ProjectInfo()
         {
-            MinExplanation = Explanation?.Substring(0,50);
+          
+            
         }
+
+        
 
         [MaxLength(150)]
         public string? YoutubeLink { get; set; }
@@ -29,8 +33,20 @@ namespace MyEverything.ThisMvc.Entities
 
         public void UpdateData()
         {
-            MinExplanation = Explanation.Substring(0, 100);
+            Fixing();
+           
             UpdateDate = DateTime.Now;
+        }
+        public void Fixing()
+        {
+            if (Explanation?.Length >= 50)
+            {
+                MinExplanation = "{Explanation?.Substring(0, 50)}...";
+            }
+            else
+            {
+                MinExplanation = Explanation;
+            }
         }
 
     }

@@ -121,7 +121,7 @@ app.UseRouting();
     return Results.Ok(options.Value);
 });*/
 app.UseAuthentication();
-//app.UseMiddleware<RefreshTokenControlMiddleware>();
+app.UseMiddleware<RefreshTokenControlMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();

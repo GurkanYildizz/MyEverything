@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using MyEverything.ThisMvc.CQRS.Command;
 using MyEverything.ThisMvc.CQRS.Queries;
 using MyEverything.ThisMvc.Entities;
 using MyEverything.ThisMvc.Entities.DTOs;
@@ -40,16 +41,14 @@ namespace MyEverything.ThisMvc.Controllers
 
             return Ok(response);
         }
+        [HttpPost("addproject")]
+        public async Task<IActionResult> AddProject([FromForm] ProjectInfoCommand projectInfoCommand, CancellationToken cancellationToken)
+        {
 
-        /* [HttpPost("refresh-token")]
-         [Authorize]
-         public async Task<IActionResult> RefreshTokens([FromBody] string refreshToken , CancellationToken cancellationToken)
-         {
-
-
-             return Ok("Buraya girildi");
-         }
-        */
+             await sender.Send(projectInfoCommand, cancellationToken); // Daha sonra burada başarılı veya değil gibi dönüşler olacak result pattern kullanılacak
+            
+            return Ok();
+        }
 
 
 

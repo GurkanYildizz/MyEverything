@@ -1,12 +1,29 @@
 ﻿@using MyEverything.ThisMvc.Entities.DTOs
 @model ProjectInfo
 
-<div>
+<div class="main-div" >
     <div>
-        <img src="@Model.Image" class="img-fluid"/> 
+        <img src="@Model.Image" class="img-fluid" />
     </div>
-    
-    <h1>@Model.Title</h1>
+
+    <h1 class="tag">@Model.ProjectName</h1>
+    <br />
     <p> @Model.Explanation</p>
 
 </div>
+
+<style>
+
+    .tag {
+        color: currentcolor;
+        justify-self: center;
+        padding: 1%;
+        margin: 2%;
+        border-bottom: inset;
+    }
+
+    .main-div{
+        background-color: beige;
+        padding: 5%;
+    }
+</style>

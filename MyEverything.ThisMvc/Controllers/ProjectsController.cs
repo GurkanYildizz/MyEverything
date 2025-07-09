@@ -17,6 +17,7 @@ namespace MyEverything.ThisMvc.Controllers
             this.everythingDbContext = everythingDbContext;
         }
 
+
         public async Task<IActionResult> Index()
         {
             var data = await everythingDbContext.ProjectsInfo.ToListAsync();//Burada tüm verilerin hepsi değil de parça parça gözükecek... Hatta sadece öne çıkanlar gözükecek...
@@ -24,9 +25,6 @@ namespace MyEverything.ThisMvc.Controllers
             return View(data);
         }
 
-
-     
-       
 
         public async Task<IActionResult> Details(Guid id, string slug)
         {

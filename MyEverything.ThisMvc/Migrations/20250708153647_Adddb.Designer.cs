@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyEverything.ThisMvc.Entities;
 
@@ -11,9 +12,11 @@ using MyEverything.ThisMvc.Entities;
 namespace MyEverything.ThisMvc.Migrations
 {
     [DbContext(typeof(EverythingDbContext))]
-    partial class EverythingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250708153647_Adddb")]
+    partial class Adddb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

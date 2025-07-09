@@ -12,11 +12,11 @@ namespace MyEverything.ThisMvc.CQRS.Queries
     {
 
     }
-    public class AuthorQueryRequest : IRequestHandler<AuthorQuery, LoginResponse_Dto>
+    public class AuthorQueryHandler : IRequestHandler<AuthorQuery, LoginResponse_Dto>
     {
         private readonly UserManager<AdminLoginInfo> userManager;
         private readonly CreateTokensControl createTokensControl;
-        public AuthorQueryRequest(UserManager<AdminLoginInfo> userManager, CreateTokensControl createTokensControl)
+        public AuthorQueryHandler(UserManager<AdminLoginInfo> userManager, CreateTokensControl createTokensControl)
         {
 
             this.userManager = userManager;

@@ -10,11 +10,12 @@ namespace MyMediatr;
 public interface ISender
 {
     public Task<TResponse> Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default);
+    public Task Send(IRequest request, CancellationToken cancellationToken = default);
 }
 
 public class Sender(IServiceProvider serviceProvider) : ISender
 {
-    async Task<TResponse> ISender.Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken)//Bunun bir de sadece requet lisi olacak
+   public async Task<TResponse> Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken)
     {
         /* using var scoped = serviceProvider.CreateScope();
          var provider = scoped.ServiceProvider;
@@ -39,9 +40,9 @@ public class Sender(IServiceProvider serviceProvider) : ISender
          return result;*/
 
 
-        using var scope = serviceProvider.CreateScope();
+        using var scoped = serviceProvider.CreateScope();
 
-        var provider = scope.ServiceProvider;
+        var provider = scoped.ServiceProvider;
 
         var handlerType = typeof(IRequestHandler<,>)
             .MakeGenericType(request.GetType(), typeof(TResponse));
@@ -50,5 +51,20 @@ public class Sender(IServiceProvider serviceProvider) : ISender
 
         return await handler.Handle((dynamic)request, cancellationToken);
 
+    }
+    public async Task Send(IRequest request,CancellationToken cancellationToken)
+    {
+        using var scoped=serviceProvider.CreateScope();
+
+        var provider = scoped.ServiceProvider;
+
+        var handlerType= typeof(IRequestHandler<>)
+            .MakeGenericType(request.GetType());
+
+        dynamic handler = provider.GetRequiredService(handlerType);
+        
+        await handler.Handle((dynamic)request, cancellationToken);
+
+        
     }
 }

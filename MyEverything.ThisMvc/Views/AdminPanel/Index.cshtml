@@ -1,14 +1,54 @@
-﻿
-@{
+﻿@{
     Layout = "";
 }
 <html>
-    <head>
-        <title>
+<head>
+    <title>
 
-        </title>
-        </head>
-    <body>
-        <h1>Admin Main Page</h1>
-    </body>
+    </title>
+</head>
+<body>
+    <div>
+        <div>
+            <table class="top-menu">
+
+                <tr>
+                    <td class="menu-element">
+                        <a href="adminpanel/addproject">Yeni Proje ekle</a>
+                    </td>
+
+                    <td class="menu-element">
+                        <a href="#"> Tüm Projeler</a>
+                    </td>
+
+                    <td class="menu-element">
+                        <a href="../"> Çıkış Yap</a>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</body>
 </html>
+
+<style>
+    .top-menu {
+        border: 5px;
+        border-style: groove;
+        margin: 5px;
+        padding: 10px;
+        justify-self: center;
+    }
+
+    .menu-element {
+        color: #0c0c0c;
+        border-style: groove;
+        padding: 1vh 10vw;
+    }
+    a{
+        text-decoration:none;
+        color:inherit;
+    }
+    
+</style>

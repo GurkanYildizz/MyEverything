@@ -1,13 +1,110 @@
 ﻿@{
     Layout = "";
 }
+@model ProjectInfoAndImage_Dto;
 
 <html>
-    <head></head>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
 
-    <body>
-        <div>
-            <h1>Urun ekle</h1>
+<body>
+    <div>
+        <div class="container mt-4">
+            <h2><i class="bi bi-layers-fill"></i> Yeni Proje Ekle </h2>
+            <hr />
+
+            <div class="row">
+                <div class="col-md-8">
+                    @* Form gönderildiğinde ilgili Action'a post edilecek.
+               Birden fazla dosya yükleme olacağı için enctype="multipart/form-data" eklenmesi ZORUNLUDUR. *@
+                    <form asp-action="AddProject" method="post" enctype="multipart/form-data">
+
+                        @* Genel model hatalarını gösterir. *@
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        @* ProjectInfo sınıfından gelen alanlar *@
+                        <h4 class="text-primary">Proje Detayları</h4>
+                        <div class="mb-3">
+                            <label asp-for="ProjectName" class="form-label"><b>Proje Adı</b></label>
+                            <input asp-for="ProjectName" class="form-control" />
+                            <span asp-validation-for="ProjectName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Version" class="form-label"><b>Versiyon</b></label>
+                            <input asp-for="Version" type="number" step="any" class="form-control" />
+                            <span asp-validation-for="Version" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Explanation" class="form-label"><b>Detaylı Açıklama</b></label>
+                            <textarea asp-for="Explanation" class="form-control" rows="6"></textarea>
+                            <span asp-validation-for="Explanation" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="YoutubeLink" class="form-label"><b>YouTube Linki</b> (Opsiyonel)</label>
+                            <input asp-for="YoutubeLink" type="url" class="form-control" />
+                            <span asp-validation-for="YoutubeLink" class="text-danger"></span>
+                        </div>
+
+                        <hr />
+
+                        @* Base DTO sınıfından gelen alanlar *@
+                        <h4 class="text-primary">Genel Bilgiler</h4>
+                        <div class="mb-3">
+                            <label asp-for="Title" class="form-label"><b>Başlık</b></label>
+                            <input asp-for="Title" class="form-control" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="mainImageFile" class="form-label"><b>Ana Resim</b> (Kapak Fotoğrafı - Opsiyonel)</label>
+                            @* Controller'da dosyayı yakalamak için name="mainImageFile" kullandık. *@
+                            <input name="ImageFile" type="file" id="mainImageFile" class="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="projectImageFiles" class="form-label"><b>Proje Galerisi Resimleri</b> (Opsiyonel)</label>
+                            @* Controller'da dosyaları yakalamak için name="projectImageFiles" kullandık. *@
+                            <input type="file" name="projectImageFiles" id="projectImageFiles" class="form-control" multiple />
+                            <small class="form-text text-muted">Birden fazla resim seçmek için CTRL tuşuna basılı tutabilirsiniz.</small>
+                        </div>
+
+                        <hr />
+
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Projeyi Kaydet</button>
+                            <a asp-action="Index" class="btn btn-secondary">Vazgeç</a>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <div class="alert alert-info">
+                        <h5>Form Hakkında Notlar</h5>
+                        <p>Bu form, hem base (`Projects_Dto`) hem de derived (`ProjectInfo`) sınıflarındaki alanları birleştirir.</p>
+                        <ul>
+                            <li><b>Id</b>, <b>CreatedDate</b>, <b>UpdateDate</b>: Bu alanlar sistem tarafından otomatik olarak doldurulduğu için formda yer almaz.</li>
+                            <li><b>MinExplanation</b>: Bu alan `Explanation` alanından türetildiği için kullanıcıdan ayrıca istenmez.</li>
+                            <li><b>Ana Resim</b>: Base sınıftaki `Image` alanı için tek dosya yükleme alanıdır.</li>
+                            <li><b>Galeri Resimleri</b>: `ProjectInfo` sınıfındaki `List<string> Images` alanı için çoklu dosya yükleme alanıdır.</li>
+                        </ul>
+                        <p>Controller tarafında `mainImageFile` (IFormFile) ve `projectImageFiles` (List&lt;IFormFile&gt;) parametreleriyle resimleri yakalamanız gerekecektir.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-    </body>
+
+        @section Scripts {
+            @{
+                @* Client-side (istemci taraflı) validasyon için bu scriptlerin ekli olduğundan emin olun *@
+                <partial name="_ValidationScriptsPartial" />
+            }
+        }
+
+    </div>
+
+</body>
 </html>
