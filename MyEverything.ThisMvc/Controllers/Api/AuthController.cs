@@ -23,7 +23,7 @@ namespace MyEverything.ThisMvc.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-       
+
         private readonly ISender sender;
 
         public AuthController(ISender sender)
@@ -34,21 +34,14 @@ namespace MyEverything.ThisMvc.Controllers
 
 
         [HttpPost("login-admin")]
-        public async Task<IActionResult> LoginAdmin([FromBody] AuthorQuery authorQuery,CancellationToken cancellationToken)
+        public async Task<IActionResult> LoginAdmin([FromBody] AuthorQuery authorQuery, CancellationToken cancellationToken)
         {
-            //var user = await userManager.FindByEmailAsync(authorQuery.Email);
-            var response = await sender.Send(authorQuery,cancellationToken);
+            var response = await sender.Send(authorQuery, cancellationToken);
 
             return Ok(response);
         }
-        [HttpPost("addproject")]
-        public async Task<IActionResult> AddProject([FromForm] ProjectInfoCommand projectInfoCommand, CancellationToken cancellationToken)
-        {
 
-             await sender.Send(projectInfoCommand, cancellationToken); // Daha sonra burada başarılı veya değil gibi dönüşler olacak result pattern kullanılacak
-            
-            return Ok();
-        }
+
 
 
 

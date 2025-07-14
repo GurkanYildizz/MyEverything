@@ -7,16 +7,16 @@ using System.Net.Http;
 using System.Text;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace MyEverything.ThisMvc.Controllers
+namespace MyEverything.ThisMvc.Controllers.Mvc
 {
     [Authorize]
     public class AdminPanelController : Controller
     {
-        private readonly IHttpClientFactory httpClientFactory;
+        private readonly HttpClient httpClient;
 
         public AdminPanelController(IHttpClientFactory httpClientFactory)
         {
-            this.httpClientFactory = httpClientFactory;
+            httpClient= httpClientFactory.CreateClient();
         }
 
         public IActionResult Index()
@@ -39,7 +39,7 @@ namespace MyEverything.ThisMvc.Controllers
         public async Task<IActionResult> AddProject(ProjectInfoAndImage_Dto projectInfoImage)
         {
             
-            var client = httpClientFactory.CreateClient();
+            
 
             using var formData = new MultipartFormDataContent();
 
@@ -54,7 +54,7 @@ namespace MyEverything.ThisMvc.Controllers
             {
                 var fileContent = new StreamContent(projectInfoImage.ImageFile.OpenReadStream());
                 fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(projectInfoImage.ImageFile.ContentType);
-                formData.Add(fileContent, nameof(projectInfoImage.ImageFile),projectInfoImage.ImageFile.FileName);
+                formData.Add(fileContent, nameof(projectInfoImage.ImageFile),projectInfoImage.ImageFile.FileName);//içerik,resmin yolu , resmin tam ismi(cat.jpg)
             }
 
 
@@ -70,7 +70,7 @@ namespace MyEverything.ThisMvc.Controllers
             }
 
 
-            var response = await client.PostAsync("https://localhost:7071/api/auth/addproject", formData);
+            var response = await httpClient.PostAsync("https://localhost:7071/api/projectsadmin/addproject", formData);
 
             if (response.IsSuccessStatusCode)
             {

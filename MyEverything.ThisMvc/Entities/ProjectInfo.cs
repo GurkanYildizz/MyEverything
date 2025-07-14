@@ -41,7 +41,7 @@ namespace MyEverything.ThisMvc.Entities
         {
             if (Explanation?.Length >= 50)
             {
-                MinExplanation = "{Explanation?.Substring(0, 50)}...";
+                MinExplanation = $"{Explanation?.Substring(0, 50)}...";
             }
             else
             {

@@ -23,7 +23,7 @@ public class CreateTokensControl
         this.configuration = configuration;
     }
 
-    public async Task<LoginResponse_Dto> TokenControls(AdminLoginInfo user, CancellationToken cancellationToken)
+    public async Task<LoginResponse_Dto> CreateToken(AdminLoginInfo user, CancellationToken cancellationToken)
     { //-----------------------------------------
 
         var refreshToken = $"{Guid.NewGuid().ToString()}{DateTime.Now.ToString()}";

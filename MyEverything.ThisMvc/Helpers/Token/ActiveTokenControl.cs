@@ -11,7 +11,7 @@ namespace MyEverything.ThisMvc.Helpers.Token
             var validationParameters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = authSigninKey, // Gerçek bir anahtar kullanın!
+                IssuerSigningKey = authSigninKey, // Gerçek bir anahtar !
                 ValidateIssuer = true,
                 ValidIssuer = jwtSettings["Issuer"], // Token'ı yayınlayan adres
                 ValidateAudience = true,

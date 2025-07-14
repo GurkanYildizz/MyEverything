@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using System.Text;
 using System.Text.Json;
 
-namespace MyEverything.ThisMvc.Controllers
+namespace MyEverything.ThisMvc.Controllers.Mvc
 {
     public class LoginController : Controller
     {
@@ -27,7 +27,7 @@ namespace MyEverything.ThisMvc.Controllers
         [HttpGet]
         public IActionResult LoginAdmin()
         {
-            if (!String.IsNullOrEmpty(Request.Cookies[GlobalCookiesNames.JwtCookieName]))
+            if (!string.IsNullOrEmpty(Request.Cookies[GlobalCookiesNames.JwtCookieName]))
             {
                 return RedirectToAction(actionName: "Index", controllerName: "AdminPanel");//--------------------
             }

@@ -110,7 +110,7 @@ public class RefreshTokenControlMiddleware
 
             var findUser = await userManager.FindByIdAsync(userId);
 
-            var tokenData = await tokenCreateController.TokenControls(findUser, new CancellationToken());
+            var tokenData = await tokenCreateController.CreateToken(findUser, new CancellationToken());
 
 
 
@@ -135,21 +135,5 @@ public class RefreshTokenControlMiddleware
 
    
 
-    /*
-     private DateTime DecodeJwtTokenDate(string token)
-    {
-        var handler = new JwtSecurityTokenHandler();
-
-        if (handler.CanReadToken(token))
-        {
-            var jwtToken = handler.ReadJwtToken(token);
-
-            //var email = jwtToken.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Email);
-
-            return (jwtToken.ValidTo);
-
-        }
-        return (new DateTime().AddDays(10));
-    }
-    */
+   
 }

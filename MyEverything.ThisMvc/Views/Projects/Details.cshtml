@@ -2,14 +2,15 @@
 @model ProjectInfo
 
 <div class="main-div" >
-    <div>
-        <img src="@Model.Image" class="img-fluid" />
+    <div class="text-center ratio ratio-1x1 ">
+        <img src="@Model.Image" class="img-thumbnail img-contain" />
     </div>
 
     <h1 class="tag">@Model.ProjectName</h1>
     <br />
-    <p> @Model.Explanation</p>
-
+    <div>
+        <div class="explan"> @Html.Raw(Model.Explanation)</div>
+    </div>
 </div>
 
 <style>
@@ -18,12 +19,34 @@
         color: currentcolor;
         justify-self: center;
         padding: 1%;
-        margin: 2%;
-        border-bottom: inset;
+        margin: 2%;        
+        border-bottom: double;
     }
 
     .main-div{
         background-color: beige;
-        padding: 5%;
+        padding: 3% 5% 10% 5%;
+        border-radius: 7% 7% 7% 7%;
+        border-style: groove;
     }
+    
+
+    .ratio .img-contain {
+        background-color: beige;
+        object-fit: contain;
+        border: 0;
+        border-radius: 100px;
+        border-color: darkgray;
+        padding: 0;
+        margin: 0px;
+    }
+    .explan{
+        background-color: gainsboro;
+        color: black;
+        margin: 10px;
+        padding: 12px;
+        border-radius: 10px;
+        white-space: pre-wrap;
+    }
+    
 </style>

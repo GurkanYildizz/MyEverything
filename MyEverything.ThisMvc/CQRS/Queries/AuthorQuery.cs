@@ -57,7 +57,7 @@ namespace MyEverything.ThisMvc.CQRS.Queries
                 //Burada mesaj gönderilecek şifre yanlış vb...
             }
 
-            var addLoginResponse = await createTokensControl.TokenControls(user, cancellationToken);
+            var addLoginResponse = await createTokensControl.CreateToken(user, cancellationToken);
             return addLoginResponse;
         }
     }

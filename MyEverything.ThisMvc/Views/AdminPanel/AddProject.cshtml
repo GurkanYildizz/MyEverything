@@ -80,20 +80,7 @@
                         </div>
 
                     </form>
-                </div>
-                <div class="col-md-4">
-                    <div class="alert alert-info">
-                        <h5>Form Hakkında Notlar</h5>
-                        <p>Bu form, hem base (`Projects_Dto`) hem de derived (`ProjectInfo`) sınıflarındaki alanları birleştirir.</p>
-                        <ul>
-                            <li><b>Id</b>, <b>CreatedDate</b>, <b>UpdateDate</b>: Bu alanlar sistem tarafından otomatik olarak doldurulduğu için formda yer almaz.</li>
-                            <li><b>MinExplanation</b>: Bu alan `Explanation` alanından türetildiği için kullanıcıdan ayrıca istenmez.</li>
-                            <li><b>Ana Resim</b>: Base sınıftaki `Image` alanı için tek dosya yükleme alanıdır.</li>
-                            <li><b>Galeri Resimleri</b>: `ProjectInfo` sınıfındaki `List<string> Images` alanı için çoklu dosya yükleme alanıdır.</li>
-                        </ul>
-                        <p>Controller tarafında `mainImageFile` (IFormFile) ve `projectImageFiles` (List&lt;IFormFile&gt;) parametreleriyle resimleri yakalamanız gerekecektir.</p>
-                    </div>
-                </div>
+                
             </div>
         </div>
 
