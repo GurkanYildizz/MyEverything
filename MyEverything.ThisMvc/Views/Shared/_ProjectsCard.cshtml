@@ -20,7 +20,7 @@
             <a href="@Url.Action(action: "DetailOfSelected", controller: "Projects", values: new { id = Model.Item1.Id, title = Model.Item1.Title })" class="btn btn-primary">Detayları Gör</a>
             @if (Model.Item2)
             {
-                <a href="@Url.Action(action: "ProjectDelete", controller: "Projects", values: new { id = Model.Item1.Id })" class="btn btn-danger ms-auto">Projeyi Sil</a>
+                <a href="@Url.Action(action: "ProjectDelete", controller: "Projects",values: new { id = Model.Item1.Id })" class="btn btn-danger ms-auto">Projeyi Sil</a>
             }
         </div>
     </div>

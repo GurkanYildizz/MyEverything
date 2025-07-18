@@ -45,6 +45,7 @@ builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
     
 })
    .AddJwtBearer(options =>
@@ -101,9 +102,16 @@ builder.Services.AddAuthentication(options =>
                context.Response.Redirect("/Login/LoginAdmin");
 
                return Task.CompletedTask;
+           },
+           OnAuthenticationFailed=context =>
+           {
+               context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+               return Task.CompletedTask;
            }
+
        };
    }
+   
 
 
    );

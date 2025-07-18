@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using MyEverything.ThisMvc.Entities;
 using MyEverything.ThisMvc.Entities.DTOs;
+using MyEverything.ThisMvc.Helpers.CookieGlobalVariablesValues;
 using Newtonsoft.Json;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -70,7 +72,20 @@ namespace MyEverything.ThisMvc.Controllers.Mvc
             }
 
 
-            var response = await httpClient.PostAsync("https://localhost:7071/api/projectsadmin/addproject", formData);
+
+            var token = Request.Cookies[GlobalCookiesNames.JwtCookieName];
+            if (string.IsNullOrEmpty(token))
+            {
+                return Unauthorized();
+            }
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7071/api/projectsadmin/addproject");
+
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            
+            request.Content = formData;
+
+            var response=await httpClient.SendAsync(request);
+            
 
             if (response.IsSuccessStatusCode)
             {

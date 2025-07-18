@@ -21,3 +21,4 @@ public interface IRequestHandler<TRequest,TResponse> where TRequest:IRequest<TRe
     public Task<TResponse> Handle(TRequest request,CancellationToken cancellationToken=default);
 }
 
+

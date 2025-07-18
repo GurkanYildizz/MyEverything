@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MyEverything.ThisMvc.CQRS.Command;
 using MyMediatr;
 
@@ -6,6 +7,8 @@ namespace MyEverything.ThisMvc.Controllers.Api;
 
 [Route("api/[controller]")]
 [ApiController]
+
+[Authorize]
 public class ProjectsAdminController:ControllerBase
 {
     private readonly ISender sender;
@@ -17,7 +20,6 @@ public class ProjectsAdminController:ControllerBase
 
     
 
-
     [HttpPost("addproject")]
     public async Task<IActionResult> AddProject([FromForm] ProjectInfoCommand projectInfoCommand, CancellationToken cancellationToken)
     {
@@ -27,6 +29,8 @@ public class ProjectsAdminController:ControllerBase
         return Ok();
     }
 
+   
+    
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteProject(Guid id,CancellationToken cancellationToken)
     {
